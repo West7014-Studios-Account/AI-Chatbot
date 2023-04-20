@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>W7s Expiriments</title>
+  <link rel="icon" href="https://west7014-studios-portal.w3spaces.com/W7sLogo.png">
+</head>
+<body>
+
+    <h1>W7s AI Chatbot</h1>
+
+    <div>
+        <input type="text" id="userInput" placeholder="Type your message here">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <div id="chatLog"></div>
+
+    <script>
+        function sendMessage() {
+            var message = document.getElementById("userInput").value;
+            if (message.trim() == "") {
+                return;
+            }
+
+            var xhr = new XMLHttpRequest();
+            var url = "https://EXAMPLE.COM/APIENDPOINTHERE.py"; //  API endpoint
+            var data = JSON.stringify({message: message});
+
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var response = JSON.parse(this.responseText);
+                    var chatLog = document.getElementById("chatLog");
+                    chatLog.innerHTML += "<p><strong>You:</strong> " + message + "</p>";
+                    chatLog.innerHTML += "<p><strong>Chat AI:</strong> " + response.message + "</p>";
+                    document.getElementById("userInput").value = "";
+                }
+            };
+            xhr.send(data);
+        }
+    </script>
+
+</body>
+</html>
